@@ -134,6 +134,10 @@ def update_attendance(conn, attendance_data):
                     else:
                         print(f"⚠️  Attendance ID {attendance_id} not found (no rows updated)")
 
+
+
+
+
             except Exception as err:
                 error_msg = f"❌ Error updating attendance ID {attendance.get('id', 'unknown')}: {err}"
                 print(error_msg)

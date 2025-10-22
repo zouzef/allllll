@@ -11,10 +11,10 @@ db_config = config["databaseConfig"]
 TOKEN = config["serverConfig"]["TOKEN"]
 API_URL = "https://unistudious.com/slc/update-attendance-note/"
 
-def send_to_remote(attendance_record,attendance_id):
+def send_to_remote(attendance_id,note):
     """Send attendance record to remote API"""
     payload = {
-        'note':"youssefkasmi"
+        'note':note
     }  # Map fields if needed
     headers = {"Authorization": f"Bearer {TOKEN}"}
     try:
@@ -36,30 +36,27 @@ def process_audit():
 
         # Select only rows that have releaseToken = 1 AND useToken not NULL
         cursor.execute("""
-            SELECT id, record_id, new_data, releaseToken, useToken
+            SELECT audit_id, action_type, old_data,  new_data , changed_at,is_synced,id_attendance
             FROM attendance_audit
-            WHERE releaseToken = 1 AND useToken IS NOT NULL
+            WHERE is_synced = 0
         """)
         rows = cursor.fetchall()
+        if(len(rows)==0):
+            print("No rows to process")
+            return
 
         for row in rows:
-            new_data = json.loads(row['new_data'])
-            if send_to_remote(new_data,row['record_id']):
-                # After successful push, reset releaseToken and useToken in main table
+            attendanceId = json.loads(str(row['id_attendance']))
+            note = json.loads(str(row['new_data']))['note']
+            print(note)
+            if(send_to_remote(attendanceId,note)):
                 cursor.execute("""
-                    UPDATE attendance
-                    SET releaseToken = 0, useToken = NULL
-                    WHERE id = %s
-                """, (row['record_id'],))
-                # Also reset releaseToken and useToken in audit table
-                cursor.execute("""
-                    UPDATE attendance_audit
-                    SET releaseToken = 0, useToken = NULL
-                    WHERE id = %s
-                """, (row['id'],))
-                print(f"✔ Attendance ID {row['record_id']} synced successfully")
+                    UPDATE attendance_audit 
+                    set is_synced = 1
+                    where id_attendance = %s
+                """,(attendanceId,))
             else:
-                print(f"⚠️ Failed to sync Attendance ID {row['record_id']}")
+                print("Error in sending")
 
         conn.commit()
 
@@ -72,7 +69,6 @@ def process_audit():
         if 'conn' in locals() and conn.is_connected():
             conn.close()
 
-# Continuous monitoring
 while True:
     process_audit()
-    time.sleep(10)  # Check every 10 seconds
+    time.sleep(20)
