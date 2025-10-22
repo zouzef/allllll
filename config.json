@@ -1,0 +1,27 @@
+{
+    "serverConfig": {
+        "TOKEN": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3NjA5NDczNDQsImV4cCI6MTc2MTU1MjE0NCwicm9sZXMiOlsiUk9MRV9TTEMiXSwidXNlcm5hbWUiOiJmNDo0ZDozMDplZTpjOToxZCJ9.d3_AKWvtW7lETb4FYyi4-KDI8U0Le6e4UKqJSHMCD-rj9LQzeerikoN-YT1SOzmTRIe3viE1I7TadtFSEX030Qqc4Wzs5vmaZucLrxe5CHNymW7Q_e-Fnio5Ld8S2jYErwx83mMtWO5P1xeKheZwiSb1hxja9cC2_9jOe3m8zQeDm-o8SpUzj_QYvUwwp_tSeLDc6FrnF-4h0M9roxOnNzPrmFWAz4xdvhE2UQW8l5Cz_hRzAYzZ7JZNxLJS0eOYy9Je8bXQ67v4qLYD35TcgCQT2DDpt4Mn2I_GIYxDwMrxohuF2BMo4nZ9jYBMlkIQXpNrlTSLO2SR00Svax8o0w",
+        "SYNC_INTERVAL_MINUTES": 1,
+        "SYNC_STATUS_FILE": "sync_status.json",
+        "INTERNET_CHECK_TIMEOUT": 5,
+        "INTERNET_CHECK_URL": "https://www.google.com"
+    },
+    "databaseConfig": {
+        "user": "root",
+        "password": "root123",
+        "host": "127.0.0.1",
+        "port": 3307,
+        "database": "learning",
+        "autocommit": true,
+        "charset": "utf8mb4",
+        "use_unicode": true,
+        "connect_timeout": 10,
+        "auth_plugin": "mysql_native_password"
+    },
+    "system_sync": {
+        "CHECKING_TIME": 5
+    },
+    "file_config": {
+        "path": "/home/kernelsipc/PycharmProjects/unistudious-project/data_base/config.json"
+    }
+}
