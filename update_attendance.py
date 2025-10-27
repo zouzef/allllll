@@ -12,7 +12,6 @@ BASE_URL="https://www.unistudious.com"
 TOKEN= config["serverConfig"]["TOKEN"]
 def change_release_token(entityID,entityName):
     try:
-
         url=f"{BASE_URL}/slc/reset-special-slc-token-detail-by-id"
 
         headers={"Authorization": f"Bearer {TOKEN}"}
@@ -30,6 +29,7 @@ def change_release_token(entityID,entityName):
 
     except Exception as err:
         print(f"error is from functio reset entity:{f}")
+
 
 def update_attendance(conn, attendance_data):
     """
